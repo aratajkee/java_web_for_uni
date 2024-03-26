@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+    <title>Добавить пользователя</title>
+</head>
+<body>
+
+<div class="container p-3 align-content-lg-center position-relative align-self-center">
+    <form method="post" th:object="${user}" th:action="@{/addUser/new}">
+        <h1 class="h3 mb-3 font-weight-normal">Введите данные</h1>
+        <table>
+            <tr>
+                <td>
+                    <label for="inputName" class="sr-only">Name</label>
+                    <input type="text" id="inputName" class="form-control" placeholder="Name" required="" th:field="*{name}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="inputEmail" class="sr-only">Email</label>
+                    <input type="text" id="inputEmail" class="form-control" placeholder="Email" required="" th:field="*{email}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="text" id="inputPassword" class="form-control" placeholder="Password" required="" th:field="*{password}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <select th:field="*{role}" class="form-control">
+                        <option th:each="role :${roles}" th:value="${role}" th:text="${role}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" class="btn-outline-primary btn-block btn">Сохранить</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="reset" class="btn-outline-danger btn-block btn">Отмена</button>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="/userPage" class="btn-danger">Назад!</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div th:if="${message != null}"
+     class="alert alert-secondary alert-dismissible fade show text-center message mt-3"
+     role="alert">
+    [[${message}]]
+    <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+
+</body>
+</html>

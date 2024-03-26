@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <title>Создание аккаута</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class = "position-absolute top-20 start-50 translate-middle shadow p-3 mb-5 rounded">
+
+  <form action="#" th:action="@{/createAccount/new}" method="post" th:object="${user}">
+    <h1 class="h3 mb-3 font-weight-normal">Введите данные</h1>
+    <table class = "loginTable">
+      <tr><td>
+        <label for="inputName" class="sr-only">Name</label>
+        <input type="text" id="inputName" class="form-control" placeholder="Name" required="" th:field="*{name}">
+      </td></tr>
+
+      <tr><td>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="text" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" th:field="*{email}"/>
+      </td></tr>
+
+      <tr><td>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="text" id="inputPassword" class="form-control" placeholder="Password" required="" th:field="*{password}">
+      </td></tr>
+
+      <tr>
+        <td><button class="btn btn-lg btn-primary btn-block" type ="submit">Создать!</button></td>
+      </tr>
+    </table>
+    <button class="btn-outline-danger btn-block btn">
+      <a href="/">Отмена</a>
+    </button>
+  </form>
+</div>
+
+
+</body>
+</html>

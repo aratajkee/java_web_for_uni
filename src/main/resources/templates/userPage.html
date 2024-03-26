@@ -4,30 +4,68 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
   <title>Кабинет пользователя</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{css/styles.css}"/>
   <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
   <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{assets/bootstrap-select-1.13.9/dist/js/bootstrap-select.js}"></script>
 </head>
 <body>
   <div th:replace="fragments/header::header"></div>
-  <div class = "container">
+  <div th:if="${currentUser == null}">
+    <h3>Авторизируйтесь или создайте аккаунт!</h3>
+  </div>
 
-    <table class="table border-bottom">
-      <tbody>
-      <tr>
-        <td><img th:src="@{'data:image/jpeg;base64, '+${image}}" alt="Avatar" height="100px"></td><td><a href="/uploadAvatar" class ="btn-link">Загрузить аватар</a></td>
-      </tr>
-      <tr>
-        <td><p>Имя</p></td><td th:text="${user.getName()}"></td>
-      </tr>
-      <tr>
-        <td><p>Email</p></td><td th:text="${user.getEmail()}"></td>
-      </tr>
-      <tr>
-        <td><p>Роль</p></td><td th:text="${user.getRole()}"></td>
-      </tr>
-      </tbody>
-    </table>
+  <div th:if="${currentUser != null}" class="container">
+
+    <div class = "container p-3 d-flex align-items-center justify-content-center">
+      <table class="table border-bottom">
+        <tbody>
+        <tr>
+          <td><img th:src="@{'data:image/jpeg;base64, '+${image}}" alt="Avatar" height="100px"></td>
+          <td><a href="/uploadAvatar" class ="btn-link">Загрузить аватар</a></td>
+        </tr>
+        <tr>
+          <td><p>Имя</p></td><td th:text="${currentUser.getName()}"></td>
+        </tr>
+        <tr>
+          <td><p>Email</p></td><td th:text="${currentUser.getEmail()}"></td>
+        </tr>
+        <tr>
+          <td><p>Роль</p></td><td th:text="${currentUser.getRole()}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div th:if="${currentUser.getRole().equals('admin')}" class="container">
+      <div class="container p-3 d-flex align-items-center justify-content-center">
+        <table class="table border-bottom">
+          <thead class="thead-light">
+          <tr>
+            <th scope="col">Avatar</th>
+            <th scope="col">Email</th>
+            <th scope="col">Name</th>
+            <th scope="col">Role</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="user : ${users}">
+            <td><img th:src="@{'data:image/jpeg;base64, ' + ${user.generateBase64Image()}}" alt="Avatar" height="50px"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td th:text="${user.getName()}"></td>
+            <td th:text="${user.getRole()}"></td>
+            <td><a th:href="@{/changeUser/{id}(id=${user.id})}" class="btn-link">Настроить пользователя</a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <br>
+      <div class="container p-3 d-flex align-items-center justify-content-center">
+        <form method="get" th:action="@{/addUser}"><button type="submit" class="btn btn-primary eBtn">Add user!</button></form>
+      </div>
+    </div>
 
   </div>
 

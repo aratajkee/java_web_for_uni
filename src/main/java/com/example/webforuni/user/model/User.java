@@ -3,9 +3,13 @@ package com.example.webforuni.user.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class User {
     @Id
     @GeneratedValue(generator = "generator")
-    @GenericGenerator(name = "generator", strategy = "increment")
+    @GenericGenerator(name = "generator")
     @Column(name = "id")
     Integer id;
 
@@ -28,15 +32,60 @@ public class User {
     @Column(name = "password")
     String password;
 
+    @Getter
     @Column(name = "role")
     String role;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<Integer> favoriteBooksId;
 
     @Lob
     @Column(name = "avatar")
     byte[] imageData;
 
+    public void setRole(Role role) {
+        this.role = role.toString();
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void addBook(int bookId) {
+        this.favoriteBooksId.add(bookId);
+    }
+
+    public void deleteBook(int bookId) {
+      this.favoriteBooksId.removeIf(i -> i == bookId);
+    }
+
     public String generateBase64Image() {
         return Base64.encodeBase64String(this.imageData);
+    }
+
+    public enum Role {
+        CLIENT("client"),
+        MODERATOR("moderator"),
+        ADMIN("admin"),
+        PETUX("petuch");
+        public final String role;
+        Role(String role) {
+            this.role = role;
+        }
+        @Override
+        public String toString() {
+            return this.role;
+        }
+
+        public static List<String> getValues() {
+            List<String> roles = new ArrayList<>();
+            for (Role role : Role.values()) {
+                roles.add(role.toString());
+            }
+            return !roles.isEmpty()
+                    ? roles
+                    :null;
+        }
     }
 
 }

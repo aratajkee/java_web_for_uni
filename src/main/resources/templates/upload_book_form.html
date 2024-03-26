@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+    <title>Загрузка книги</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/header::header"></div>
+
+<div class="container" style="max-width: 600px">
+    <h3 class="md-3">Заполните информацию о книге</h3>
+    <form
+        id="uploadBookForm"
+        method="post"
+        th:action="@{/uploadBook/create}">
+
+        <table class="table">
+            <tbody>
+            <tr><td>
+                <label for="inputName" class="sr-only"></label>
+                <input type="text" th:field="${book.name}" id="inputName" class="form-control" placeholder="Название книги" required="">
+            </td></tr>
+
+            <tr><td>
+                <label for="inputAuthor" class="sr-only"></label>
+                <input type="text" th:field="${book.author}" id="inputAuthor" class="form-control" placeholder="Автор" required="">
+            </td></tr>
+            </tbody>
+        </table>
+        <button class="btn btn-sm btn-outline-success" type="submit">
+            Сохранить
+        </button>
+        <button class="btn btn-sm btn-outline-danger align-content-center" type="reset">
+            Отмена
+        </button>
+    </form>
+</div>
+
+<div class="container" style="max-width: 600px; margin-top: 10px">
+    <h3>Загрузите файл книги</h3>
+    <form method="post" th:action="@{/uploadBook/addFile}" enctype="multipart/form-data">
+        <input id="input-file" type="file" name="file" class="form-control-file" accept="multipart/form-data"/>
+        <button class="btn btn-sm btn-outline-success float-sm-left" type="submit">
+            Загрузить
+        </button>
+    </form>
+</div>
+
+<div class="container" style="max-width: 600px; margin-top: 40px">
+    <h3>Загрузите обложку книги</h3>
+    <form method="post" th:action="@{/uploadBook/addCover}" enctype="multipart/form-data">
+        <input id="input-cover" type="file" name="cover" class="form-control-file" accept="image/jpeg, image/png"/>
+        <button class="btn btn-sm btn-outline-success float-sm-left" type="submit">
+            Загрузить
+        </button>
+    </form>
+</div>
+
+<div class="container" style="margin-top: 50px; max-width: 600px">
+    <h3>Опубликовать книгу</h3>
+    <form  method="post" th:action="@{/uploadBook/upload}">
+        <button class="btn btn-sm btn-outline-success float-sm-left" type="submit">
+            Загрузить
+        </button>
+    </form>
+</div>
+
+<div th:if="${message != null}"
+     style="margin-top: 30px"
+     class="alert alert-secondary alert-dismissible fade show text-center message mt-3"
+     role="alert">
+    [[${message}]]
+    <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+
+
+</body>
+</html>

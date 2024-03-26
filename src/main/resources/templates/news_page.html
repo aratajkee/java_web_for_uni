@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+    <title>Начальная страница</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/header::header"></div>
+<div class = "timer container align-self-center">
+    <h3>Current date and time!</h3>
+    <p th:text="${dateTime}"></p>
+</div>
+<div class = "login_counter container align-self-center">
+    <h3>Login counter!</h3>
+    <p th:text="${loginCounter}"></p>
+</div>
+
+<div class="container" style="width: 600px">
+    <div th:each="news : ${newsList}" class="container" style="margin-top: 20px;border-bottom: black 1px solid">
+        <h4 th:text="${news.getTitle()}" class="text-info"></h4>
+        <br>
+        <p th:text="${news.getText()}" class="card-text"></p>
+    </div>
+</div>
+
+<div th:if="${currentUserRole.equals('admin') || currentUserRole.equals('moderator')}" class="container" style="margin-top: 20px">
+    <button class="btn btn-link btn-outline-primary">
+        <a href="/createNews">Создать новость</a>
+    </button>
+</div>
+</body>
+</html>

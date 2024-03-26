@@ -1,0 +1,30 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<clients_list th:fragment="clients_list">
+    <div>
+        <table class="table border-bottom">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Avatar</th>
+                <th scope="col">Email</th>
+                <th scope="col">Name</th>
+                <th scope="col">Role</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td><img th:src="@{'data:image/jpeg;base64, ' + ${user.generateBase64Image()}}" alt="Avatar" height="50px"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td th:text="${user.getName()}"></td>
+                <td th:text="${user.getRole()}"></td>
+                <td><select th:field="${user.role}">
+                    <option th:value="User.Role.CLIENT" th:text="client"></option>
+                    <option th:value="User.Role.MODERATOR" th:text="moderator"></option>
+                    <option th:value="User.Role.ADMIN" th:text="admin"></option>
+                </select></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</clients_list>

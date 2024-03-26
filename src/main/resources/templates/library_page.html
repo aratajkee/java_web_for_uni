@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <title>Библиотека</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{css/styles.css}"/>
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{assets/bootstrap-select-1.13.9/dist/js/bootstrap-select.js}"></script>
+</head>
+<body>
+  <div th:replace="fragments/header::header"></div>
+  <div class="container align-self-center align-content-lg-center">
+    <table class="table border-bottom">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Обложка</th>
+        <th scope="col">Название</th>
+        <th scope="col">Автор</th>
+        <th scope="col">Скачать</th>
+        <th scope="col" th:if="${currentUserRole.equals('admin') || currentUserRole.equals('moderator')}">Удалить</th>
+        <th scope="col" th:if="${currentUserRole.equals('admin') || currentUserRole.equals('moderator')}">Добавить в избранное</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="book : ${books}">
+        <td>
+          <img th:src="@{'data:image/jpeg;base64, ' + ${book.generateBase64Image()}}" alt="Book Cover" height="50px"/>
+        </td>
+        <td th:text="${book.getName()}"></td>
+        <td th:text="${book.getAuthor()}"></td>
+        <td>
+          <a th:href="@{/download/{id}(id=${book.getId()})}" class="btn-link">Скачать!</a>
+        </td>
+        <td th:if="${currentUserRole.equals('admin') || currentUserRole.equals('moderator')}">
+          <a th:href="@{/book/delete/{id} (id=${book.getId()})}" class="btn-link" style="color: red">Удалить!</a>
+        </td>
+        <td th:if="${currentUserRole.equals('admin') || currentUserRole.equals('moderator')}">
+          <a th:href="@{/book/addToFav/{id} (id=${book.getId()})}" class="btn-link" style="color: chartreuse">Добавить в избранное!</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+<div th:if="${currentUserRole.equals('admin') || currentUserRole.equals('moderator')}" class="container">
+  <form th:action="@{/uploadBook}" method="get">
+    <button type="submit" class="btn btn-outline-primary">Загрузить книгу!</button>
+  </form>
+
+</div>
+</body>
+</html>
