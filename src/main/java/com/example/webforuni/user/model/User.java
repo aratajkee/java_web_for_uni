@@ -1,12 +1,15 @@
 package com.example.webforuni.user.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +29,12 @@ public class User {
     @Column(name = "name")
     String name;
 
+    @Pattern(regexp = "^\\w+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Неверный формат email!")
     @Column(name = "email")
     String email;
 
+    @NotNull
+    @Length(min = 3, max = 30)
     @Column(name = "password")
     String password;
 

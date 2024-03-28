@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface NewsService {
     void create(News news);
+    News read(int id);
     List<News> readAll();
+    boolean delete(int id);
+    boolean update(News news, int id);
 
 }

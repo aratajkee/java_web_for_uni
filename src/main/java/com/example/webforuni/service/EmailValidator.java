@@ -10,7 +10,7 @@ public class EmailValidator {
 
     public final static  String emailRegex = "^\\w+@([\\w-]+\\.)+[\\w-]{2,4}$";
 
-    public static boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         Pattern pattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.find();

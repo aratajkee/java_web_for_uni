@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
@@ -55,5 +56,11 @@ public class NewsPageController {
     @GetMapping
     public String open() {
         return "news_page";
+    }
+
+    @GetMapping("/deleteNews/{id}")
+    public String deleteNews(@PathVariable int id) {
+        newsService.delete(id);
+        return "redirect:/basePage";
     }
 }
